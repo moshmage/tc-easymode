@@ -1,2 +1,5 @@
 node_modules/
 .idea/
+app/partial.html
+server/error.log
+server/simple_html_dom.php
