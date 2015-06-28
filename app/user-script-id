@@ -1,0 +1,9 @@
+// ==UserScript==
+// @name         TornCity - Easy Mode
+// @namespace    mosh.mage
+// @version      0.0.5
+// @description  Torn City Tweaks
+// @author       moshmage
+// @include      *torn.com/*
+// @grant        none
+// ==/UserScript==
