@@ -6,7 +6,9 @@
 var _timeout = new Array();
 var DB_NAMES = {
 	options: 'tc-easyMode-options',
-	bookmarks: 'tc-easyMode-bookmarks'
+	bookmarks: 'tc-easyMode-bookmarks',
+	playersList: 'tc-em-bplayerlist',
+	travelrunData: 'tc-em-travelrun'
 };
 var tcEasyMode = window.tcEasyMode;
 tcEasyMode.modules = {};

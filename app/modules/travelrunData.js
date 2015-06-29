@@ -16,7 +16,7 @@ tcEasyMode.modules.travelrunData = {
 		var travelAgencyMarket = $('.travel-agency-market');
 		var userInfo = $('.user-info');
 		var date = new Date();
-		var lastUpdate = localParse('tc-em-travelrun');
+		var lastUpdate = localParse(DB_NAMES.travelrunData);
 
 		if (!lastUpdate.timestamp) lastUpdate = {timestamp:date.getTime() - (refreshTime * 60 * 1000)};
 		shouldUpdate = (date.getTime() - lastUpdate.timestamp >= (refreshTime * 60 * 1000));
@@ -86,9 +86,9 @@ tcEasyMode.modules.travelrunData = {
 	},
 	initMod: function() {
 		var updateOrRetrieve = (jQuery('.travel-map').length > 0) ? 'retrieve' : 'update';
-		var myPid;
-		if ($('.info-name a').length > 0) myPid = $('.info-name a').attr('href').match(/XID=(\d+)/g)[0];
-		else myPid =  '1870342';
+		var myPid = $('.info-name a');
+		if (myPid.length > 0) myPid = myPid.attr('href').match(/XID=(\d+)/g)[0];
+		else myPid =  localParse();
 		if (updateOrRetrieve === 'retrieve') {
 			this.requestTravelrun(myPid);
 		} else {

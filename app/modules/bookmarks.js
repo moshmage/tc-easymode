@@ -23,7 +23,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 	withPlayerProfile: function(playerId,playerName) {
 		var playerBookMarkElemnt;
 		var string = {};
-		var players = localParse('tc-em-bplayerlist');
+		var players = localParse(DB_NAMES.playersList);
 		var profileElement = jQuery('ul.action-list');
 		var css = {};
 		var playerOnList = (players[playerId]);
@@ -45,7 +45,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 		profileElement.append(playerBookMarkElemnt);
 
 		playerBookMarkElemnt.on('click',function(){
-			var players = localParse('tc-em-bplayerlist');
+			var players = localParse(DB_NAMES.playersList);
 			var thisEle = jQuery(this);
 			var action = (thisEle.attr('data-bookm') === 'remove') ? false : true;
 			console.log('action',action,playerId,playerName);
@@ -89,7 +89,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 			this.withPlayerProfile(playerId,playerName);
 		}
 
-		players = localParse('tc-em-bplayerlist');
+		players = localParse(DB_NAMES.playersList);
 		console.log('players',players);
 		if (!players) {
 			jQuery(".tcem-bookm-player .list-link.lists").toggleClass('empty');
