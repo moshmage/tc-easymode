@@ -8,13 +8,14 @@ tcEasyMode.modules.travelrunData = {
 		return true;
 	},
 	isLocation: function() {
-		if (jQuery('.travel-map').length > 0) {
+		var travelMap = jQuery('.travel-map');
+		if (travelMap.length > 0) {
 			addGlobalStyle('.itemdata table {margin-top: 10px;}');
 			addGlobalStyle('.itemdata table th,.itemdata table td {vertical-align:middle;}');
 			addGlobalStyle('.itemdata table tr {border-bottom: 1px solid rgba(0,0,0,0.5);}');
 			addGlobalStyle('.itemdata table tr:last-child {border-bottom: none;');
 		}
-		return ((jQuery('.travel-home').length > 0) || (jQuery('.travel-map').length > 0));
+		return ((jQuery('.travel-home').length > 0) || (travelMap.length > 0));
 	},
 	updateTravelrun: function(myPid) {
 		var shouldUpdate;
@@ -41,8 +42,9 @@ tcEasyMode.modules.travelrunData = {
 							lastUpdate.timestamp = date.getTime();
 							localWrite('tc-em-travelrun',lastUpdate);
 							if (data.match(/Congratulations/i)) {
-								var codeString = $('pre',$(data)).text();
-								var message = $('h3 a',$(data)).href();
+								data = $(data);
+								var codeString = $('pre',data).text();
+								var message = $('h3 a',data).href();
 								string = '<br/><h5>You won a prize!</h5>Send a message to <a href="'+message+'">ebcdic</a> containing: '+codeString;
 							}
 							$('h4',contentTitle).html('Travelrun updated :)',string);
@@ -78,7 +80,7 @@ tcEasyMode.modules.travelrunData = {
 				$('.tc-em-traveldata').removeClass('hide');
 
 				$.get(travelDataLink+'?c='+retrieveCountry+'&pid='+myPid,function (data) {
-					var table, lastUpdateText;
+					var table, lastUpdateText, contentWrapper = $('.content-wrapper');
 					preventSecondClick = false;
 					data = $(data);
 					table = $('table',data);
@@ -86,11 +88,11 @@ tcEasyMode.modules.travelrunData = {
 					lastUpdateText = data.clone().children().remove().html().replace(/[()]/g,'');
 					travelDataTitle.text('Last update: '+lastUpdateText);
 
-					if ($('.content-wrapper .itemdata').length > 0) {
-						$('.content-wrapper .itemdata table').html(table);
+					if ($('.itemdata',contentWrapper).length > 0) {
+						$('.itemdata table',contentWrapper).html(table);
 					} else {
 						runWrapper.append(table);
-						$('.content-wrapper').append(runWrapper);
+						contentWrapper.append(runWrapper);
 					}
 
 				});
