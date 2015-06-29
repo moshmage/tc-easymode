@@ -61,9 +61,9 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build',[
 		'concat',
+		'uglify',
 		'stamp',
-		'addUserScript',
-		'uglify'
+		'addUserScript'
 	]);
 
 };
