@@ -8,6 +8,12 @@ tcEasyMode.modules.travelrunData = {
 		return true;
 	},
 	isLocation: function() {
+		if (jQuery('.travel-map').length > 0) {
+			addGlobalStyle('.itemdata table {margin-top: 10px;}');
+			addGlobalStyle('.itemdata table th,.itemdata table td {vertical-align:middle;}');
+			addGlobalStyle('.itemdata table tr {border-bottom: 1px solid rgba(0,0,0,0.5);}');
+			addGlobalStyle('.itemdata table tr:last-child {border-bottom: none;');
+		}
 		return ((jQuery('.travel-home').length > 0) || (jQuery('.travel-map').length > 0));
 	},
 	updateTravelrun: function(myPid) {
@@ -58,7 +64,7 @@ tcEasyMode.modules.travelrunData = {
 		var countries = { "south-africa": 'z', uae: 'e', china: 'x', japan: 'j', switzerland: 's',
 			argentina: 'a', uk: 'u', hawaii: 'h', canada: 'c', cayman: 'i', mexico: 'm' };
 		var travelWrapper = $('<div class="info-msg-cont border-round m-top10 tc-em-traveldata hide"><div class="info-msg border-round"><i class="info-icon"></i><div class="delimiter"><div class="msg right-round">Requesting Travel Run data...</div></div></div></div><hr class="page-head-delimiter m-top10 m-bottom10">');
-
+		var runWrapper = $('<div class="itemdata cont-gray bottom-round"></div>');
 		$('.content-wrapper').append(travelWrapper);
 		$('.travel-agency').on('click','[data-race]',function(e){
 			e.preventDefault();
@@ -72,13 +78,21 @@ tcEasyMode.modules.travelrunData = {
 				$('.tc-em-traveldata').removeClass('hide');
 
 				$.get(travelDataLink+'?c='+retrieveCountry+'&pid='+myPid,function (data) {
+					var table, lastUpdateText;
 					preventSecondClick = false;
+					data = $(data);
+					table = $('table',data);
+					$('tr:first-child',table).addClass('title-black');
+					lastUpdateText = data.clone().children().remove().html().replace(/[()]/g,'');
+					travelDataTitle.text('Last update: '+lastUpdateText);
+
 					if ($('.content-wrapper .itemdata').length > 0) {
-						$('.content-wrapper .itemdata').html(data);
+						$('.content-wrapper .itemdata table').html(table);
 					} else {
-						$('.content-wrapper').append(data);
+						runWrapper.append(table);
+						$('.content-wrapper').append(runWrapper);
 					}
-					travelDataTitle.text('Travel Run data for '+attrCountry);
+
 				});
 			}
 		});
@@ -87,8 +101,17 @@ tcEasyMode.modules.travelrunData = {
 	initMod: function() {
 		var updateOrRetrieve = (jQuery('.travel-map').length > 0) ? 'retrieve' : 'update';
 		var myPid = $('.info-name a');
-		if (myPid.length > 0) myPid = myPid.attr('href').match(/XID=(\d+)/g)[0];
-		else myPid =  localParse();
+		var temp;
+		console.log(myPid.attr('href').match(/(\d+)/g));
+		myPid = (myPid.length > 0)  ? myPid.attr('href').match(/(\d+)/g)[0] : localParse(DB_NAMES.travelrunData).pid;
+		if (!myPid) myPid = "#";
+
+		if (myPid !== '#' && localParse(DB_NAMES.travelrunData).pid !== myPid) {
+			temp = localParse(DB_NAMES.travelrunData);
+			temp.pid = myPid;
+			localWrite(DB_NAMES.travelrunData,temp)
+		}
+
 		if (updateOrRetrieve === 'retrieve') {
 			this.requestTravelrun(myPid);
 		} else {
