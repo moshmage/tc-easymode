@@ -3,6 +3,7 @@
 tcEasyMode.modules.travelrunData = {
 	name: 'Enable travelrun data',
 	code: 'travelrunData',
+	enabled: isModuleEnabled('bookmarkPlayer'),
 	isPresent: function() {
 		return true;
 	},

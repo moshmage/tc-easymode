@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         TornCity - Easy Mode
 // @namespace    mosh.mage
-// @version      0.0.6
-// @description  Torn City Tweaks
+// @version      0.0.7
+// @description  Tweaks to Torn City game
 // @author       moshmage
 // @include      *torn.com/*
 // @grant        none
@@ -190,7 +190,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 	name: 'Bookmark Players',
 	code: 'bookmarkPlayer',
 	description: 'Create a list of players that are neither friends nor foe',
-	enabled: isModuleEnabled(this.code),
+	enabled: isModuleEnabled('bookmarkPlayer'),
 	isLocation: function() {
 		if (location.href.match(/profiles.php\?XID=(\d+)/)) {
 			/* css line 'cos .. yeah */
@@ -211,7 +211,6 @@ tcEasyMode.modules.bookmarkPlayer = {
 		var string = {};
 		var players = localParse(DB_NAMES.playersList);
 		var profileElement = jQuery('ul.action-list');
-		var css = {};
 		var playerOnList = (players[playerId]);
 
 		string.profileListElemnt = '<li class="action-icon-tcem-;action;" data-bookm=";action;"><a title=";description;" href="#" data-id=";pid;"></a></li>';
@@ -390,6 +389,7 @@ tcEasyMode.modules.listMarketButton = {
 tcEasyMode.modules.travelrunData = {
 	name: 'Enable travelrun data',
 	code: 'travelrunData',
+	enabled: isModuleEnabled('bookmarkPlayer'),
 	isPresent: function() {
 		return true;
 	},
@@ -499,7 +499,7 @@ setTimeout(function(){
 
 /*
  * tc-easymode
- * v0.0.5
+ * v0.0.7
  * 2015-06-29
  */
-console.log("TC - Easy Mode v0.0.5");
+console.log("TC - Easy Mode v0.0.7");

@@ -4,7 +4,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 	name: 'Bookmark Players',
 	code: 'bookmarkPlayer',
 	description: 'Create a list of players that are neither friends nor foe',
-	enabled: isModuleEnabled(this.code),
+	enabled: isModuleEnabled('bookmarkPlayer'),
 	isLocation: function() {
 		if (location.href.match(/profiles.php\?XID=(\d+)/)) {
 			/* css line 'cos .. yeah */
@@ -25,7 +25,6 @@ tcEasyMode.modules.bookmarkPlayer = {
 		var string = {};
 		var players = localParse(DB_NAMES.playersList);
 		var profileElement = jQuery('ul.action-list');
-		var css = {};
 		var playerOnList = (players[playerId]);
 
 		string.profileListElemnt = '<li class="action-icon-tcem-;action;" data-bookm=";action;"><a title=";description;" href="#" data-id=";pid;"></a></li>';

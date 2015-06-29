@@ -26,7 +26,9 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('addUserScript','Adds required user.js string to built file', function() {
+		var pkg = grunt.file.readJSON('package.json');
 		var userModFile = grunt.file.read(appGruntConfig.path.userModFile);
+		userModFile = userModFile.replace(/;version;/g,pkg.version).replace(/;description;/g,pkg.description);
 		var builtFile = grunt.file.read(appGruntConfig.path.destination);
 		grunt.file.write(appGruntConfig.path.destination,userModFile +'\n\r'+ builtFile);
 		grunt.log.writeln('File ' + appGruntConfig.path.destination + ' user scripted');
