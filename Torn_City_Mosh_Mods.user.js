@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TornCity - Easy Mode
 // @namespace    mosh.mage
-// @version      0.0.8
+// @version      0.0.9
 // @description  Tweaks to Torn City game
 // @author       moshmage
 // @include      *torn.com/*
@@ -12,7 +12,7 @@
 
 /*
  * tc-easymode
- * v0.0.8
+ * v0.0.9
  * 2015-06-29
  */
-console.log("TC - Easy Mode v0.0.8");
+console.log("TC - Easy Mode v0.0.9");
