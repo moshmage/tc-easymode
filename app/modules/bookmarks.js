@@ -47,7 +47,6 @@ tcEasyMode.modules.bookmarkPlayer = {
 			var players = localParse(DB_NAMES.playersList);
 			var thisEle = jQuery(this);
 			var action = (thisEle.attr('data-bookm') === 'remove') ? false : true;
-			console.log('action',action,playerId,playerName);
 			if (!action && players[playerId]) delete players[playerId];
 			else if (action) players[playerId] = playerName;
 			localWrite('tc-em-bplayerlist',players);
@@ -89,14 +88,12 @@ tcEasyMode.modules.bookmarkPlayer = {
 		}
 
 		players = localParse(DB_NAMES.playersList);
-		console.log('players',players);
 		if (!players) {
 			jQuery(".tcem-bookm-player .list-link.lists").toggleClass('empty');
 		} else {
 			$('.tcem-bookm-player .list-link-value').text(Object.keys(players).length);
 			string.playersLine = '';
 			for (playerId in players) {
-				console.log('playerId',playerId,'playerName',players[playerId]);
 				string.playersLine += string.playerLine
 					.replace(';pid;',playerId)
 					.replace(';name;',players[playerId]);

@@ -13,7 +13,6 @@ tcEasyMode.init = function() {
 			return (optionsTarget.length) ? true : false;
 		},
 		createHtml: function(module) {
-			console.log('creating html for',module.code);
 			var newOptModule = jQuery('<div class="clearfix prettyradio labelright  blue" style="display: block"></div>');
 			var checked = (module.enabled) ? 'checked="checked"' : '';
 			var theClass = (module.enabled) ? 'class="checked"' : '';
@@ -35,7 +34,6 @@ tcEasyMode.init = function() {
 					$('a',jQuery(this).parent()).addClass('checked');
 				}
 				toggleMod(jQuery(this).attr('id'));
-				console.log('clicked opt',module.name,'enabled:',isModuleEnabled(jQuery(this).attr('id')));
 			});
 		},
 		initMod: function() {
@@ -55,7 +53,6 @@ tcEasyMode.init = function() {
 
 	function persistentInit(modKey) {
 		var mod = tcEasyMode.modules[modKey];
-		console.log(mod.name,'check',mod.isPresent());
 		if (mod.isPresent() && !mod.loaded) {
 			mod.loaded = true;
 			mod.initMod();

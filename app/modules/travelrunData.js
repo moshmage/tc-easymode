@@ -21,7 +21,6 @@ tcEasyMode.modules.travelrunData = {
 
 		if (!lastUpdate.timestamp) lastUpdate = {timestamp:date.getTime() - (refreshTime * 60 * 1000)};
 		shouldUpdate = (date.getTime() - lastUpdate.timestamp >= (refreshTime * 60 * 1000));
-		console.log(lastUpdate);
 
 		if (travelAgencyMarket.length) {
 			console.log('tc-em: Updating travelrun',shouldUpdate,'last',lastUpdate.timestamp,'now',date.getTime());
