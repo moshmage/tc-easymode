@@ -86,7 +86,9 @@ tcEasyMode.modules.travelrunData = {
 	},
 	initMod: function() {
 		var updateOrRetrieve = (jQuery('.travel-map').length > 0) ? 'retrieve' : 'update';
-		var myPid = $('.info-name a').attr('href').match(/XID=(\d+)/g)[0] || '1870342';
+		var myPid;
+		if ($('.info-name a')) myPid = $('.info-name a').attr('href').match(/XID=(\d+)/g)[0];
+		else myPid =  '1870342';
 		if (updateOrRetrieve === 'retrieve') {
 			this.requestTravelrun(myPid);
 		} else {
