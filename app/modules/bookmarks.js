@@ -46,7 +46,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 		playerBookMarkElemnt.on('click',function(){
 			var players = localParse(DB_NAMES.playersList);
 			var thisEle = jQuery(this);
-			var action = (thisEle.attr('data-bookm') === 'remove') ? false : true;
+			var action = (thisEle.attr('data-bookm') !== 'remove');
 			if (!action && players[playerId]) delete players[playerId];
 			else if (action) players[playerId] = playerName;
 			localWrite('tc-em-bplayerlist',players);
@@ -74,31 +74,33 @@ tcEasyMode.modules.bookmarkPlayer = {
 		element.wrapper.append(element.bookmarkMenu);
 		element.wrapper.append(element.playerList);
 
-		jQuery('.m-lists #lists').append(element.wrapper);
-		jQuery(".tcem-bookm-player .list-link.lists").on('click',function() {
+		$('.m-lists #lists').append(element.wrapper);
+		element.wrapper = $(".tcem-bookm-player");
+
+		$(".list-link.lists",element.wrapper).on('click',function() {
 			var thisEle = jQuery(this);
 			thisEle.siblings('.listy').andSelf().toggleClass('list-active');
 			if (!thisEle.hasClass('empty')) thisEle.tinyscrollbar({scroll: !0});
 		});
 
 		if (isProfile) {
-			playerName = jQuery('a.user.name img').attr('title').replace(/\s\[\d+\]/g,'');
+			playerName = $('a.user.name img').attr('title').replace(/\s\[\d+\]/g,'');
 			playerId = isProfile[1];
 			this.withPlayerProfile(playerId,playerName);
 		}
 
 		players = localParse(DB_NAMES.playersList);
 		if (!players) {
-			jQuery(".tcem-bookm-player .list-link.lists").toggleClass('empty');
+			$(".list-link.lists",element.wrapper).toggleClass('empty');
 		} else {
-			$('.tcem-bookm-player .list-link-value').text(Object.keys(players).length);
+			$('.list-link-value',element.wrapper).text(Object.keys(players).length);
 			string.playersLine = '';
 			for (playerId in players) {
 				string.playersLine += string.playerLine
 					.replace(';pid;',playerId)
 					.replace(';name;',players[playerId]);
 			}
-			jQuery('.tcem-bookm-player ul.list-of-people').append(string.playersLine);
+			$('ul.list-of-people',element.wrapper).append(string.playersLine);
 		}
 	}
 };
