@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         TornCity - Easy Mode
 // @namespace    mosh.mage
-// @version      0.0.5
+// @version      0.0.6
 // @description  Torn City Tweaks
 // @author       moshmage
 // @include      *torn.com/*
 // @grant        none
+// @downloadURL  http://github.com/moshmage/tc-easymode/raw/master/Torn_City_Mosh_Mods.user.js
 // ==/UserScript==
 /**
  * Globals and Init module
@@ -15,7 +16,9 @@
 var _timeout = new Array();
 var DB_NAMES = {
 	options: 'tc-easyMode-options',
-	bookmarks: 'tc-easyMode-bookmarks'
+	bookmarks: 'tc-easyMode-bookmarks',
+	playersList: 'tc-em-bplayerlist',
+	travelrunData: 'tc-em-travelrun'
 };
 var tcEasyMode = window.tcEasyMode;
 tcEasyMode.modules = {};
@@ -206,7 +209,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 	withPlayerProfile: function(playerId,playerName) {
 		var playerBookMarkElemnt;
 		var string = {};
-		var players = localParse('tc-em-bplayerlist');
+		var players = localParse(DB_NAMES.playersList);
 		var profileElement = jQuery('ul.action-list');
 		var css = {};
 		var playerOnList = (players[playerId]);
@@ -228,7 +231,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 		profileElement.append(playerBookMarkElemnt);
 
 		playerBookMarkElemnt.on('click',function(){
-			var players = localParse('tc-em-bplayerlist');
+			var players = localParse(DB_NAMES.playersList);
 			var thisEle = jQuery(this);
 			var action = (thisEle.attr('data-bookm') === 'remove') ? false : true;
 			console.log('action',action,playerId,playerName);
@@ -272,7 +275,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 			this.withPlayerProfile(playerId,playerName);
 		}
 
-		players = localParse('tc-em-bplayerlist');
+		players = localParse(DB_NAMES.playersList);
 		console.log('players',players);
 		if (!players) {
 			jQuery(".tcem-bookm-player .list-link.lists").toggleClass('empty');
@@ -400,7 +403,7 @@ tcEasyMode.modules.travelrunData = {
 		var travelAgencyMarket = $('.travel-agency-market');
 		var userInfo = $('.user-info');
 		var date = new Date();
-		var lastUpdate = localParse('tc-em-travelrun');
+		var lastUpdate = localParse(DB_NAMES.travelrunData);
 
 		if (!lastUpdate.timestamp) lastUpdate = {timestamp:date.getTime() - (refreshTime * 60 * 1000)};
 		shouldUpdate = (date.getTime() - lastUpdate.timestamp >= (refreshTime * 60 * 1000));
@@ -470,9 +473,9 @@ tcEasyMode.modules.travelrunData = {
 	},
 	initMod: function() {
 		var updateOrRetrieve = (jQuery('.travel-map').length > 0) ? 'retrieve' : 'update';
-		var myPid;
-		if ($('.info-name a').length > 0) myPid = $('.info-name a').attr('href').match(/XID=(\d+)/g)[0];
-		else myPid =  '1870342';
+		var myPid = $('.info-name a');
+		if (myPid.length > 0) myPid = myPid.attr('href').match(/XID=(\d+)/g)[0];
+		else myPid =  localParse();
 		if (updateOrRetrieve === 'retrieve') {
 			this.requestTravelrun(myPid);
 		} else {
