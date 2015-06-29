@@ -104,7 +104,6 @@ tcEasyMode.modules.travelrunData = {
 		var updateOrRetrieve = (jQuery('.travel-map').length > 0) ? 'retrieve' : 'update';
 		var myPid = $('.info-name a');
 		var temp;
-		console.log(myPid.attr('href').match(/(\d+)/g));
 		myPid = (myPid.length > 0)  ? myPid.attr('href').match(/(\d+)/g)[0] : localParse(DB_NAMES.travelrunData).pid;
 		if (!myPid) myPid = "#";
 
