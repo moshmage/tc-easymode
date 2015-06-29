@@ -12,6 +12,13 @@ module.exports = function(grunt) {
 				dest: appGruntConfig.path.destination
 			}
 		},
+		uglify: {
+			dist:{
+				files:{
+					'Torn_City_Mosh_Mods.user.js': [appGruntConfig.path.destination]
+				}
+			}
+		},
 		jshint: {
 			files: [
 				'Gruntfile.js',
@@ -47,6 +54,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	grunt.registerTask('default', ['jshint']);
 
@@ -54,7 +62,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('build',[
 		'concat',
 		'stamp',
-		'addUserScript'
+		'addUserScript',
+		'uglify'
 	]);
 
 };
