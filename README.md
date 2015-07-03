@@ -1,5 +1,5 @@
-# What
-Torn City - Easy Mode (tc-em) attempts to make the game a little less all over the place by adding to its UI.
+# Torn City - Easy Mode (tc-em)
+This user-script attempts to make the game a little less all over the place by adding to its UI.
 
 ## Adds to Torn City
 - Several automatic clicks
