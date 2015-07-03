@@ -21,19 +21,22 @@ tcEasyMode.modules.travelrunData = {
 		var shouldUpdate;
 		var retryLimit = retryLimit || 2;
 		var refreshTime = 10; // minutes
-		var travelAgencyMarket = $('.travel-agency-market');
-		var userInfo = $('.user-info');
+		var travelAgencyMarket = $('.users-list:visible');
+		var userInfo = $('.user-info:visible');
 		var date = new Date();
 		var lastUpdate = localParse(DB_NAMES.travelrunData);
-
+		var sendData;
 		if (!lastUpdate.timestamp) lastUpdate = {timestamp:date.getTime() - (refreshTime * 60 * 1000)};
 		shouldUpdate = (date.getTime() - lastUpdate.timestamp >= (refreshTime * 60 * 1000));
 
 		if (travelAgencyMarket.length) {
 			console.log('tc-em: Updating travelrun',shouldUpdate,'last',lastUpdate.timestamp,'now',date.getTime());
 			if (shouldUpdate) {
+				sendData = userInfo.text() +''+ travelAgencyMarket.text();
+				sendData = sendData.replace(/\s+/g,' ');
+				console.log(sendData);
 				$.post('http://storage.mosh.codes/travelrun.php',{
-					update: userInfo.text() + travelAgencyMarket.text(),
+					update: sendData,
 					pid: myPid
 				}).done(function(data){
 						var contentTitle = $('.content-title');
@@ -94,7 +97,6 @@ tcEasyMode.modules.travelrunData = {
 						runWrapper.append(table);
 						contentWrapper.append(runWrapper);
 					}
-
 				});
 			}
 		});
@@ -104,13 +106,13 @@ tcEasyMode.modules.travelrunData = {
 		var updateOrRetrieve = (jQuery('.travel-map').length > 0) ? 'retrieve' : 'update';
 		var myPid = $('.info-name a');
 		var temp;
-		myPid = (myPid.length > 0)  ? myPid.attr('href').match(/(\d+)/g)[0] : localParse(DB_NAMES.travelrunData).pid;
+		myPid = (myPid.length > 0) ? myPid.attr('href').match(/(\d+)/g)[0] : localParse(DB_NAMES.travelrunData).pid;
 		if (!myPid) myPid = "#";
 
-		if (myPid !== '#' && localParse(DB_NAMES.travelrunData).pid !== myPid) {
+		if (myPid !== '#' && localParse(DB_NAMES.travelrunData).pid !== myPid && localParse(DB_NAMES.travelrunData).pid) {
 			temp = localParse(DB_NAMES.travelrunData);
 			temp.pid = myPid;
-			localWrite(DB_NAMES.travelrunData,temp)
+			localWrite(DB_NAMES.travelrunData,temp);
 		}
 
 		if (updateOrRetrieve === 'retrieve') {
