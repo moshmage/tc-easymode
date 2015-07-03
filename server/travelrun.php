@@ -24,7 +24,7 @@
 	} else if (!empty($_POST['update'])) {
 		$fields_string = '';
 		$url = 'http://travelrun.torncentral.com/update2.php';
-		$fields = array('data' => urlencode($_GET['update']));
+		$fields = array('data' => urlencode($_POST['update']));
 		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
         rtrim($fields_string, '&');
         $ch = curl_init();
@@ -42,7 +42,7 @@
         curl_close($ch);
 	}
 
-	if ($string) {
+	if (!empty($string)) {
 		$dom = new DOMDocument;
 		$html = file_get_contents("http://travelrun.torncentral.com/index.php$string",false,stream_context_create($opts));
 		$dom->loadHTMLFile("http://travelrun.torncentral.com/index.php$string");
@@ -54,5 +54,5 @@
 		}
 	}
 
-	if ($result) echo $result;
+	if (!empty($result)) echo $result;
 ?>
