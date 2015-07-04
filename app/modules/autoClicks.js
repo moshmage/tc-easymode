@@ -41,7 +41,6 @@ tcEasyMode.modules.autoClick = {
 				});
 			});
 		} catch (found) {
-			console.log(found);
 			return true;
 		}
 		return false;
@@ -55,10 +54,8 @@ tcEasyMode.modules.autoClick = {
 		this.clicks.forEach(function(auto) {
 			autoSelf = $(auto.self);
 			if (autoSelf.length > 0) {
-				console.log('checking',autoSelf);
 				$(auto.self).on('click',function(){
 					_own = $(this);
-					console.log('clicked',_own);
 					setTimeout(function() {
 						auto.combo.forEach(function(string){
 							if (auto.closest) {
@@ -66,7 +63,6 @@ tcEasyMode.modules.autoClick = {
 							} else {
 								_target = $(string);
 							}
-							console.log('checking',_target, _target.length);
 							if (_target.length > 0) _target.click();
 						});
 					},500);
