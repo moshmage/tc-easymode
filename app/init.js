@@ -17,9 +17,9 @@ tcEasyMode.init = function() {
 			var checked = (module.enabled) ? 'checked="checked"' : '';
 			var theClass = (module.enabled) ? 'class="checked"' : '';
 			newOptModule.append(''+
-				'<input type="radio" name="tcmmOpt_'+module.code+'" id="'+module.code+'" data-label="'+module.description+'" value="" style="display: none;" '+checked+'>'+
-				'<a href="#" role="radio" '+theClass+' aria-checked="false" aria-disabled="false"></a>'+
-				'<label for="'+module.code+'" class="">'+module.name+'</label>'+
+				'<input type="radio" name="tcmmOpt_'+module.code+'" id="'+module.code+'" value="" style="display: none;" '+checked+'>'+
+				'<a href="#" role="radio" '+theClass+' aria-checked="false" aria-disabled="false" title="'+module.description+'"></a>'+
+				'<label for="'+module.code+'" class="" title="'+module.description+'">'+module.name+'</label>'+
 				'');
 			jQuery('.tcem').append(newOptModule);
 
@@ -46,7 +46,7 @@ tcEasyMode.init = function() {
 				if (!isModuleInStorage(mod.code)) {
 					newModuleToConf(mod.code);
 				}
-				this.createHtml({code:mod.code,enabled:mod.enabled,name:mod.name});
+				this.createHtml({code:mod.code,enabled:mod.enabled,name:mod.name,description:mod.description});
 			}
 		}
 	};
