@@ -1,19 +1,15 @@
-**Features**
-- Several automatic clicks^1
+# Torn City - Easy Mode (tc-em)
+This user-script attempts to make the game a little less all over the place by adding to its UI.
+
+## Adds to Torn City
+- Several automatic clicks
 - Bookmark Players
 - Listing: Links & Icons
 - Listing: Add bulk items
 - Connect to Travel Run
 - Enable/Disable features
 
-**Coming**
-- Moar clicks, because I'm sure of where I click.
+## Requesting features
+Open up an issue on this here github and I'll try to make it happen :)
 
-\^1 I'll add them like I find 'em. currently it clicks "yes" when buying in market
-
-### Contribute
-- npm install
-- grunt build
-- copy-paste to Tampermonkey
-- ???
-- Profit!
+#### You're free to fork and make pull-requests. 
