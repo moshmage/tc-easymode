@@ -1,7 +1,7 @@
 'use strict';
 
 tcEasyMode.modules.travelrunData = {
-	name: 'Enable travelrun data',
+	name: 'Travel Run Community',
 	code: 'travelrunData',
 	description: 'Retrieves and updates travel run at TornCentral',
 	enabled: isModuleEnabled('bookmarkPlayer'),
