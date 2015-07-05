@@ -5,14 +5,15 @@ tcEasyMode.modules.fromListingToMarket = {
 	description: 'Adds search and graph links to listing',
 	enabled: isModuleEnabled('fromListingToMarket'),
 	isLocation: function() {
-		return (location.href.match(/#\/p=addl/)) ? true : false;
+		return (location.href.match(/#\/p=addl(.+)?/)) ? true : false;
 	},
 	isPresent: function() {
 		return (jQuery('.desc .name').length > 0);
 	},
 	initMod: function() {
-		var win,itemname,_this,itemid;
-		jQuery('.desc .name').each(function(){
+		var itemname,_this,itemid;
+		var itemLines = $('.desc .name');
+		itemLines.each(function(){
 			_this = jQuery(this);
 			itemname = _this.text();
 			itemid = jQuery('.cost [data-id]',_this.closest('li')).attr('data-id');

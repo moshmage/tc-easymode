@@ -73,6 +73,7 @@ tcEasyMode.init = function() {
 		console.log('tc-em: Found',modCount,'module(s)');
 		for (modKey in tcEasyMode.modules) {
 			mod = tcEasyMode.modules[modKey];
+			mod.loaded = false;
 			isLoadable = (mod.isLocation() && isModuleEnabled(mod.code));
 			console.log('tc-em: Loading',mod.name,'...',isLoadable,'isLocation:',mod.isLocation(),'isModuleEnabled:',isModuleEnabled(mod.code));
 			if (isLoadable) {
