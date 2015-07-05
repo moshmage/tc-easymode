@@ -39,7 +39,12 @@ tcEasyMode.init = function() {
 		initMod: function() {
 			var newOptions = $('<div class="chat-init has-pretty-child tcem"></div>');
 			var mod, modKey;
-			newOptions.append('<div class="t-gray-9 bold">TC Easy Mode</div>');
+
+			addGlobalStyle('.tcem .github-links {display:inline-block; float:right; color: black;}');
+			addGlobalStyle('.tcem .github-links a {color: #069;}');
+			addGlobalStyle('.tcem .github-links a:hover,.tcem .t-blue a:hover {color: #999;}');
+
+			newOptions.append('<div class="t-blue bold"><a target="_blank" href="https://github.com/moshmage/tc-easymode">TC Easy Mode</a><div class="github-links"><a target="_blank" href="https://github.com/moshmage/tc-easymode/issues">Feedback</a></div></div>');
 			$('#settings .chat-box-content').append(newOptions);
 			for (modKey in tcEasyMode.modules) {
 				mod = tcEasyMode.modules[modKey];

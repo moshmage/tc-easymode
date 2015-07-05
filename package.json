@@ -1,11 +1,11 @@
 {
 	"name": "tc-easymode",
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"description": "Tweaks to Torn City game",
 	"author":{
 		"name" : "Mosh Mage",
 		"email" : "moshmage@gmail.com",
-		"url" : ""
+		"url" : "http://www.github.com/moshmage/tc-easymode"
 	},
 	"devDependencies": {
 		"grunt": "~0.4.5",
