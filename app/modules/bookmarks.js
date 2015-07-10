@@ -5,6 +5,7 @@ tcEasyMode.modules.bookmarkPlayer = {
 	code: 'bookmarkPlayer',
 	description: 'Create a list of players that are neither friends nor foe',
 	enabled: isModuleEnabled('bookmarkPlayer'),
+	onHashChange: true,
 	isLocation: function() {
 		if (location.href.match(/profiles.php\?XID=(\d+)/)) {
 			/* css line 'cos .. yeah */
@@ -102,5 +103,9 @@ tcEasyMode.modules.bookmarkPlayer = {
 			}
 			$('ul.list-of-people',element.wrapper).append(string.playersLine);
 		}
+	},
+	destroy: function() {
+		$('.tcem-bookm-player').remove();
 	}
-};
+}
+;
