@@ -6,7 +6,7 @@ tcEasyMode.modules.findItemsMap = {
 	description: '.. It auto-clicks the damned thing.',
 	enabled: isModuleEnabled('findItemsMap'),
 	isLocation: function () {
-		return (location.href.match(/#\/city\.php/));
+		return !!(location.href.match(/city\.php/));
 	},
 	isPresent: function () {
 		return ($('[aria-label]:hidden')).length || false;
