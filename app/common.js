@@ -1,5 +1,5 @@
 /**
- * Globals and Init module
+ * Globals
  * */
 
 window.tcEasyMode = {};
