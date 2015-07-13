@@ -5,18 +5,17 @@ tcEasyMode.modules.travelrunData = {
     code: 'travelrunData',
     description: 'Retrieves and updates travel run at TornCentral',
     enabled: isModuleEnabled('bookmarkPlayer'),
+    countries: {
+        "south-africa": 'z', uae: 'e', china: 'x', japan: 'j', switzerland: 's',
+        argentina: 'a', uk: 'u', hawaii: 'h', canada: 'c', cayman: 'i', mexico: 'm'
+    },
     isPresent: function () {
         return true;
     },
     isLocation: function () {
-        var travelMap = jQuery('.travel-map');
-        if (travelMap.length > 0) {
-            addGlobalStyle('.itemdata table {margin-top: 10px;}');
-            addGlobalStyle('.itemdata table th,.itemdata table td {vertical-align:middle;}');
-            addGlobalStyle('.itemdata table tr {border-bottom: 1px solid rgba(0,0,0,0.5);}');
-            addGlobalStyle('.itemdata table tr:last-child {border-bottom: none;');
-        }
-        return ((jQuery('.travel-home').length > 0) || (travelMap.length > 0));
+        return ((jQuery('.travel-home').length > 0) ||
+            ($('.travel-map').length > 0) ||
+            ($('.travel-agency-travelling').length > 0));
     },
     updateTravelrun: function (myPid) {
         var shouldUpdate;
@@ -35,7 +34,6 @@ tcEasyMode.modules.travelrunData = {
             if (shouldUpdate) {
                 sendData = userInfo.text() + '' + travelAgencyMarket.text();
                 sendData = sendData.replace(/\s+/g, ' ');
-                console.log(sendData);
                 $.post('http://storage.mosh.codes/travelrun.php', {
                     update: sendData,
                     pid: myPid
@@ -64,49 +62,69 @@ tcEasyMode.modules.travelrunData = {
             }
         }
     },
-    requestTravelrun: function (myPid) {
+    requestTravelrun: function (myPid,traveling) {
         var preventSecondClick = false;
-        var travelDataLink = 'http://storage.mosh.codes/travelrun.php';
-        var countries = {
-            "south-africa": 'z', uae: 'e', china: 'x', japan: 'j', switzerland: 's',
-            argentina: 'a', uk: 'u', hawaii: 'h', canada: 'c', cayman: 'i', mexico: 'm'
-        };
         var travelWrapper = $('<div class="info-msg-cont border-round m-top10 tc-em-traveldata hide"><div class="info-msg border-round"><i class="info-icon"></i><div class="delimiter"><div class="msg right-round">Requesting Travel Run data...</div></div></div></div><hr class="page-head-delimiter m-top10 m-bottom10">');
+        var travelDataLink = 'http://storage.mosh.codes/travelrun.php';
         var runWrapper = $('<div class="itemdata cont-gray bottom-round"></div>');
-        $('.content-wrapper').append(travelWrapper);
-        $('.travel-agency').on('click', '[data-race]', function (e) {
-            e.preventDefault();
-            if (!preventSecondClick) {
-                preventSecondClick = true;
-                var attrCountry = $(this).attr('data-race');
-                var retrieveCountry = countries[attrCountry];
-                var travelDataTitle = $('.tc-em-traveldata .msg');
+        var retrieveCountry, attrCountry;
 
+        var getTravelRunData = function (myPid,retrieveCountry) {
+            var travelDataTitle;
+            $.get(travelDataLink + '?c=' + retrieveCountry + '&pid=' + myPid, function (data) {
+                var table, lastUpdateText, contentWrapper = $('.content-wrapper');
+                var itemData = $('.itemdata',contentWrapper);
+                attrCountry = $(this).attr('data-race');
+                travelDataTitle = $('.tc-em-traveldata .msg');
                 travelDataTitle.text('Requesting Travel Run data...');
                 $('.tc-em-traveldata').removeClass('hide');
 
-                $.get(travelDataLink + '?c=' + retrieveCountry + '&pid=' + myPid, function (data) {
-                    var table, lastUpdateText, contentWrapper = $('.content-wrapper');
-                    preventSecondClick = false;
-                    data = $(data);
-                    table = $('table', data);
-                    $('tr:first-child', table).addClass('title-black');
-                    lastUpdateText = data.clone().children().remove().html().replace(/[()]/g, '');
-                    travelDataTitle.text('Last update: ' + lastUpdateText);
+                data = $(data);
+                table = $('table', data);
+                $('tr:first-child', table).addClass('title-black');
+                lastUpdateText = data.clone().children().remove().html().replace(/[()]/g, '');
+                travelDataTitle.text('Last update: ' + lastUpdateText);
 
-                    if ($('.itemdata', contentWrapper).length > 0) {
-                        $('.itemdata table', contentWrapper).html(table);
-                    } else {
-                        runWrapper.append(table);
-                        contentWrapper.append(runWrapper);
-                    }
-                });
-            }
-        });
+                if (itemData.length > 0) {
+                    $('table', itemData).html(table);
+                } else {
+                    runWrapper.append(table);
+                    contentWrapper.append(runWrapper);
+                }
+            });
+        };
+
+        if (traveling) {
+            $('.travel-agency-travelling').append(travelWrapper);
+            attrCountry = $(document.querySelector('.header.msg').classList).eq(-1)[0];
+            retrieveCountry = this.countries[attrCountry];
+            getTravelRunData(myPid,retrieveCountry);
+
+        } else {
+            $('.content-wrapper').append(travelWrapper);
+
+            $('.travel-agency').on('click', '[data-race]', function (e) {
+                e.preventDefault();
+                if (!preventSecondClick) {
+                    preventSecondClick = true;
+                    attrCountry = $(this).attr('data-race');
+                    retrieveCountry = this.countries[attrCountry];
+                    getTravelRunData(myPid,retrieveCountry);
+                }
+            });
+
+        }
+
 
     },
     initMod: function () {
-        var updateOrRetrieve = (jQuery('.travel-map').length > 0) ? 'retrieve' : 'update';
+        addGlobalStyle('.itemdata table {margin-top: 10px;}');
+        addGlobalStyle('.itemdata table th,.itemdata table td {vertical-align:middle;}');
+        addGlobalStyle('.itemdata table tr {border-bottom: 1px solid rgba(0,0,0,0.5);}');
+        addGlobalStyle('.itemdata table tr:last-child {border-bottom: none;');
+
+        var updateOrRetrieve = (jQuery('.travel-map').length > 0 || $('.travel-agency-travelling').length > 0) ? 'retrieve' : 'update';
+        var orTraveling = ($('.travel-agency-travelling .inner-popup').length > 0);
         var myPid = $('.info-name a');
         var temp;
         myPid = (myPid.length > 0) ? myPid.attr('href').match(/(\d+)/g)[0] : localParse(DB_NAMES.travelrunData).pid;
@@ -119,7 +137,7 @@ tcEasyMode.modules.travelrunData = {
         }
 
         if (updateOrRetrieve === 'retrieve') {
-            this.requestTravelrun(myPid);
+            this.requestTravelrun(myPid,orTraveling);
         } else {
             this.updateTravelrun(myPid);
         }
