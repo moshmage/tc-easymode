@@ -5,7 +5,6 @@
 		"initFile": "app/init.js",
 		"modules": "app/modules/*.js",
 		"Ender": "app/ender.js",
-
 		"destination": "Torn_City_Mosh_Mods.user.js"
 	}
 }

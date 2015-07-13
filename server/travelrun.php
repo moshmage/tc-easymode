@@ -11,9 +11,14 @@
 		if (!empty($_POST)) $pid = preg_match("/(\d+)/i", $_POST['pid']);
 
 		if ($pid) {
+		    $allPids = file_get_contents('./pids.prices.json');
+		    $allPids = json_decode($allPids);
 			$opts = array(
 				'http'=>array('header'=>"Origin: http://www.torn.com/profiles.php?XID=$pid")
 			);
+
+			$allPids[$pid] += 1;
+			file_put_contents(json_encode($allPids),'./pids.prices.json');
 		}
 	}
 
