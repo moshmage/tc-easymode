@@ -63,14 +63,14 @@ tcEasyMode.init = function () {
         if (mod.isPresent() && !mod.loaded) {
             mod.loaded = true;
             mod.initMod();
-            _timeout[modKey] = 5;
+            loadTrying[modKey] = 5;
         }
         else {
-            if (_timeout[modKey]) {
+            if (loadTrying[modKey]) {
                 setTimeout(function () {
                     persistentInit(modKey)
                 }, 1000);
-                _timeout[modKey]--;
+                loadTrying[modKey]--;
             }
         }
     }
@@ -86,7 +86,7 @@ tcEasyMode.init = function () {
             isLoadable = (mod.isLocation() && isModuleEnabled(mod.code));
             console.log('tc-em: Loading', mod.name, '...', isLoadable, 'isLocation:', mod.isLocation(), 'isModuleEnabled:', isModuleEnabled(mod.code));
             if (isLoadable) {
-                _timeout[modKey] = 5;
+                loadTrying[modKey] = GLOBAL_CONFIG.maximum.loadTry;
                 setTimeout(persistentInit(modKey), 1000);
             }
         }

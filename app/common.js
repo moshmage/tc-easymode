@@ -3,13 +3,20 @@
  * */
 
 window.tcEasyMode = {};
-var _timeout = new Array();
+var loadTrying = new Array();
 var DB_NAMES = {
     options: 'tc-easyMode-options',
     bookmarks: 'tc-easyMode-bookmarks',
     playersList: 'tc-em-bplayerlist',
     travelrunData: 'tc-em-travelrun'
 };
+
+var GLOBAL_CONFIG = {
+	maximum: {
+		loadTry: 5
+	}
+};
+
 var tcEasyMode = window.tcEasyMode;
 tcEasyMode.modules = {};
 

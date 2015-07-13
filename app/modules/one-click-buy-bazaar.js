@@ -1,31 +1,27 @@
 'use strict';
 
 tcEasyMode.modules.oneClickBuy = {
-    name: 'Several automatic clicks',
+    name: 'One click buy',
     code: 'oneClickBuy',
-    description: 'Adds a button to buy one item from anyones bazaar',
+    description: 'Adds a button to buy one item from anyones\' bazaar',
     enabled: isModuleEnabled('oneClickBuy'),
     onHashChange: true,
     isLocation: function () {
-        return false;
+        return !!(location.href.match(/bazaar\.php/));
     },
     isPresent: function () {
-        return true;
+        return ($('[aria-label]:hidden').length > 0);
     },
     initMod: function () {
-        var newBtn = $('<button class="tc-em oneClickBuy">buy one</button>');
-        var appendLocations = $('.cena-marada');
-        var _self, _closest;
+        var newBtn = $('<span class="tc-em oneClickBuy">buy one</span>');
+        var appendLocations = $('.items-list .desc .stock');
 
-        appendLocations.forEach(function(ele) {
-            console.log(ele);
-            newBtn.appendTo(ele);
-        });
+        addGlobalStyle('.tc-em.oneClickBuy { cursor: pointer; }');
+        newBtn.appendTo(appendLocations);
 
         $('.oneClickBuy').on('click',function(){
-            _self = $(this);
-            _closest = $('.buy-act',_self);
-            $('.yes',_closest).click();
+            $('.yes',$(this).closest('li')).click();
         });
+
     }
 };
