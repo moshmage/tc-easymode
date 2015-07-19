@@ -5,10 +5,6 @@ tcEasyMode.modules.travelrunData = {
     code: 'travelrunData',
     description: 'Retrieves and updates travel run at TornCentral',
     enabled: isModuleEnabled('bookmarkPlayer'),
-    countries: {
-        "south-africa": 'z', uae: 'e', china: 'x', japan: 'j', switzerland: 's',
-        argentina: 'a', uk: 'u', hawaii: 'h', canada: 'c', cayman: 'i', mexico: 'm'
-    },
     isPresent: function () {
         return true;
     },
@@ -68,6 +64,10 @@ tcEasyMode.modules.travelrunData = {
         var travelDataLink = 'http://storage.mosh.codes/travelrun.php';
         var runWrapper = $('<div class="itemdata cont-gray bottom-round"></div>');
         var retrieveCountry, attrCountry;
+        var countries = {
+            "south-africa": 'z', uae: 'e', china: 'x', japan: 'j', switzerland: 's',
+                argentina: 'a', uk: 'u', hawaii: 'h', canada: 'c', cayman: 'i', mexico: 'm'
+        };
 
         var getTravelRunData = function (myPid,retrieveCountry) {
             var travelDataTitle;
@@ -97,7 +97,7 @@ tcEasyMode.modules.travelrunData = {
         if (traveling) {
             $('.travel-agency-travelling').append(travelWrapper);
             attrCountry = $(document.querySelector('.header.msg').classList).eq(-1)[0];
-            retrieveCountry = this.countries[attrCountry];
+            retrieveCountry = countries[attrCountry];
             getTravelRunData(myPid,retrieveCountry);
 
         } else {
@@ -108,7 +108,7 @@ tcEasyMode.modules.travelrunData = {
                 if (!preventSecondClick) {
                     preventSecondClick = true;
                     attrCountry = $(this).attr('data-race');
-                    retrieveCountry = this.countries[attrCountry];
+                    retrieveCountry = countries[attrCountry];
                     getTravelRunData(myPid,retrieveCountry);
                 }
             });
