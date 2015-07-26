@@ -30,7 +30,7 @@ tcEasyMode.modules.travelrunData = {
             if (shouldUpdate) {
                 sendData = userInfo.text() + '' + travelAgencyMarket.text();
                 sendData = sendData.replace(/\s+/g, ' ');
-                $.post('http://storage.mosh.codes/travelrun.php', {
+                $.post('http://travelrun.mosh.codes/travelrun.php', {
                     update: sendData,
                     pid: myPid
                 }).done(function (data) {
@@ -61,7 +61,7 @@ tcEasyMode.modules.travelrunData = {
     requestTravelrun: function (myPid,traveling) {
         var preventSecondClick = false;
         var travelWrapper = $('<div class="info-msg-cont border-round m-top10 tc-em-traveldata hide"><div class="info-msg border-round"><i class="info-icon"></i><div class="delimiter"><div class="msg right-round">Requesting Travel Run data...</div></div></div></div><hr class="page-head-delimiter m-top10 m-bottom10">');
-        var travelDataLink = 'http://storage.mosh.codes/travelrun.php';
+        var travelDataLink = 'http://travelrun.mosh.codes/travelrun.php';
         var runWrapper = $('<div class="itemdata cont-gray bottom-round"></div>');
         var retrieveCountry, attrCountry;
         var countries = {

@@ -7,18 +7,26 @@
 	$pid = false;
 
 	if (!empty($_GET['pid']) || !empty($_POST['pid'])) {
-		if (!empty($_GET)) $pid = preg_match("/(\d+)/i", $_GET['pid']);
-		if (!empty($_POST)) $pid = preg_match("/(\d+)/i", $_POST['pid']);
+		if (!empty($_GET)) preg_match("/(\d+)/i", $_GET['pid'], $pid);
+		if (!empty($_POST)) preg_match("/(\d+)/i", $_POST['pid'], $pid);
 
 		if ($pid) {
-		    $allPids = file_get_contents('./pids.prices.json');
-		    $allPids = json_decode($allPids);
+      $thisPid = $pid[0];
+      $allPids = file_get_contents('./pids.prices.json');
+      $allPids = json_decode($allPids);
+      if (empty($allPids)) $allPids = [];
+
+      if ($allPids->$thisPid) {
+        $allPids->$thisPid += 1;
+      } else {
+        $allPids[$thisPid] = 1;
+      }
+
 			$opts = array(
-				'http'=>array('header'=>"Origin: http://www.torn.com/profiles.php?XID=$pid")
+				'http'=>array('header'=>"Origin: http://www.torn.com/profiles.php?XID=$thisPid")
 			);
 
-			$allPids[$pid] += 1;
-			file_put_contents(json_encode($allPids),'./pids.prices.json');
+			file_put_contents('pids.prices.json',json_encode($allPids));
 		}
 	}
 
@@ -36,7 +44,7 @@
 
         //set the url, number of POST vars, POST data
         curl_setopt($ch,CURLOPT_URL, $url);
-        if ($pid) curl_setopt($ch, CURLOPT_REFERER, "http://www.torn.com/profiles.php?XID=$pid");
+        if ($thisPid) curl_setopt($ch, CURLOPT_REFERER, "http://www.torn.com/profiles.php?XID=$thisPid");
         curl_setopt($ch,CURLOPT_POST, count($fields));
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
@@ -54,7 +62,7 @@
 		$divs = $dom->getElementsByTagName('div');
 		foreach($divs as $div) {
 			if ($div->getAttribute('class') === 'itemdata') {
-				echo $dom->saveHTML($div);
+        $result = $dom->saveHTML($div);
 			}
 		}
 	}
